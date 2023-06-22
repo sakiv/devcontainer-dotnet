@@ -1,26 +1,11 @@
 # set base image (host OS)
-FROM python:3.9
-ENV PYTHONUNBUFFERED 1
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.18
 
 # Custom cache invalidation
 ARG CACHEBUST=1
 
 # set the working directory in the container
 WORKDIR /workspace
-
-RUN apt-get update \
-    && ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# COPY etc/ /etc/.
-COPY requirements.txt /workspace/
-
-# Upgrade pip
-RUN pip install --no-cache-dir --upgrade pip
-
-# Install dependencies
-RUN pip install --no-cache-dir -r /workspace/requirements.txt
 
 # install editors - nano
 RUN apt-get update \
