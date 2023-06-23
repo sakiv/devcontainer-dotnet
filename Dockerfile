@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.18
+FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 # Custom cache invalidation
 ARG CACHEBUST=1
