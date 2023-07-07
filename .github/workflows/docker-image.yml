@@ -6,9 +6,9 @@ on:
 
 jobs:
 
-  docker:
+  build:
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
         - 
