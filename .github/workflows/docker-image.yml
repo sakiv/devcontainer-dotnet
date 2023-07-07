@@ -1,0 +1,55 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  docker:
+
+    runs-on: ubuntu-latest
+
+    steps:
+        - 
+            uses: actions/checkout@v3
+            # - name: Build the Docker image
+            #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+        -
+            # Add support for more platforms with QEMU (optional)
+            # https://github.com/docker/setup-qemu-action
+            name: Set up QEMU
+            uses: docker/setup-qemu-action@v2        
+
+        - 
+            name: Setup Docker Buildx
+            # You may pin to the exact commit or the version.
+            # uses: docker/setup-buildx-action@2a1a44ac4aa01993040736bd95bb470da1a38365
+            uses: docker/setup-buildx-action@v2.9.0
+            with:
+                # Fixed platforms for current node. If not empty, values take priority over the detected ones
+                platforms: linux/amd64,linux/arm64   
+                
+        - 
+            name: Login to Docker Hub
+            # You may pin to the exact commit or the version.
+            # uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
+            uses: docker/login-action@v2.2.0
+            with:
+                # Username used to log against the Docker registry
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                # Password or personal access token used to log against the Docker registry
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+        -        
+            name: Build the Docker image and push to Docker Hub
+            uses: docker/build-push-action@v4
+            with:
+                context: .
+                push: true
+                build-args: |
+                    DOTNET_VERSION=7.0
+                tags: |
+                    sakiv77/devcontainer-dotnet:7.0
+                    sakiv77/devcontainer-dotnet:latest                    

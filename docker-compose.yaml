@@ -5,7 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: sakiv77/devcontainer-dotnet:latest
+      args:
+      # Update .NET version here
+        DOTNET_VERSION: ${DOTNET_VERSION:-7.0}
+    image: sakiv77/devcontainer-dotnet:${DOTNET_VERSION:-7.0}
     ports:
       - 9922:22
     volumes:

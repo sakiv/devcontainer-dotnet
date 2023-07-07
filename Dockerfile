@@ -1,5 +1,6 @@
 # set base image (host OS)
-FROM mcr.microsoft.com/dotnet/sdk:6.0
+ARG DOTNET_VERSION=7.0
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
 
 # Custom cache invalidation
 ARG CACHEBUST=1
